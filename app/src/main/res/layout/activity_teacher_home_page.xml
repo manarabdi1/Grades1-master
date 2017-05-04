@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_teacher_home_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.manar.grades.teacherHomePage"
+    android:background="?attr/colorControlHighlight">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        >>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/customborder">
+
+                <ImageButton
+                    android:layout_width="141dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/homeworks"
+                    android:id="@+id/hw"
+                    android:layout_alignTop="@+id/Marks"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <TextView
+                    android:text="HW and EXAMS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView13"
+                    android:layout_below="@+id/hw"
+                    android:layout_alignLeft="@+id/textView3"
+                    android:layout_alignStart="@+id/textView3"
+                    android:layout_alignRight="@+id/hw"
+                    android:layout_alignEnd="@+id/hw"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/customborder"
+                android:layout_marginLeft="10dp">
+
+                <ImageButton
+                    android:layout_width="139dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/grading"
+                    android:id="@+id/Marks"
+                    android:layout_below="@+id/attend"
+                    android:layout_alignLeft="@+id/attend"
+                    android:layout_alignStart="@+id/attend" />
+
+                <TextView
+                    android:text="Marks"
+                    android:layout_width="79dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView12"
+                    android:layout_below="@+id/Marks"
+                    android:layout_alignLeft="@+id/textView11"
+                    android:layout_alignStart="@+id/textView11"
+                    android:layout_alignRight="@+id/Marks"
+                    android:layout_alignEnd="@+id/Marks"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:background="@drawable/customborder"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:layout_width="149dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/index"
+                    android:id="@+id/logoutBT"
+                    android:layout_weight="0.89" />
+
+                <TextView
+                    android:text="Logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView23"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+

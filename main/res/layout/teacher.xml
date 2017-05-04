@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gridview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/attendance"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"
+        android:id="@+id/attendance"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/grading"
+        android:id="@+id/marks"
+        android:layout_alignTop="@+id/attendance"
+        android:layout_toRightOf="@+id/attendance"
+        android:layout_toEndOf="@+id/attendance"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/homeworks"
+        android:layout_marginTop="2dp"
+        android:id="@+id/homeworks"
+        android:layout_below="@+id/attendance"
+        android:layout_alignLeft="@+id/attendance"
+        android:layout_alignStart="@+id/attendance" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sa"
+        android:layout_alignTop="@+id/homeworks"
+        android:layout_alignLeft="@+id/marks"
+        android:layout_alignStart="@+id/marks"
+        android:id="@+id/exams" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/attendance"
+        android:layout_alignStart="@+id/attendance"
+        android:layout_marginTop="19dp"
+        android:id="@+id/teacher_name"
+        android:layout_alignRight="@+id/marks"
+        android:layout_alignEnd="@+id/marks"
+        android:text="teacher" />
+
+</RelativeLayout>
