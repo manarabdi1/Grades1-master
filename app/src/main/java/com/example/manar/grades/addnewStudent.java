@@ -2,17 +2,18 @@ package com.example.manar.grades;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import DBHandler.*;
+
 public class addnewStudent extends AppCompatActivity {
      Button save;
     EditText name,id ,pass,Class;
     DBHandler db;
-    final   AdminClass admin =new AdminClass();
+    final AdminClass admin =new AdminClass();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

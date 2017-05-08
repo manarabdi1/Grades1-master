@@ -9,8 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import  DBHandler.*;
 import java.util.ArrayList;
+
+import DBHandler.DBHandler;
 
 
 public class Studentinfoactivity extends AppCompatActivity {
@@ -34,20 +36,18 @@ public class Studentinfoactivity extends AppCompatActivity {
         student =db.getStudentByName(name);
         TextView nametv=(TextView) findViewById(R.id.studentnametv);
         nametv.setText(student.getName());
+
         // prepared a listview for notes
       listview =(ListView) findViewById(R.id.listNotes);
+
         //List Subject to getNotes;
         subject_list= db.getAllSubjectNotes(student.getClass_name());
-      adapter =new ArrayAdapter<String>(this,R.layout.rowlayout,R.id.txtitem);
+      adapter =new ArrayAdapter<String>(this,R.layout.rowlayout,R.id.txtitem,subject_list);
         listview.setAdapter(adapter);
-        // save list view iteams in bundle
 
 
 
 
-
-        //call function get data from the list and put it in the ListView
-        setDataOnListView();
 
         // get Student number of attendences
         int absentnum = db.getNumberOfAbsent(name);
@@ -110,18 +110,7 @@ public class Studentinfoactivity extends AppCompatActivity {
 
     }
 
-    public void setDataOnListView()
-    {
-        for(int i=0 ;i<subject_list.size();i++)
-        {
-            String sub = subject_list.get(i);
-            if(sub!=null) {
-                adapter.add(sub);
-            }
 
-
-        }
-    }
 
 
 

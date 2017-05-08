@@ -1,11 +1,10 @@
-package com.example.manar.grades;
+package DBHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,11 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String TABLE_SUBJECT = "subject";
     private static final String TABLE_TEACHER = "teacher";
     private static final String TABLE_MARKS = "marks";
-
+    private  static  final String TABLE_HW= "HOMWWORK";
+// homework table col
+    private  static  final  String subName_HW="subname";
+    private  static  final  String ClassName_HW = "classname";
+    private static final  String HWEXAM = "hwExam";
     // student col names
     private static final String stu_name = "stu_name";
     private static final String stu_password = "stu_password";
@@ -32,17 +35,16 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String stu_class = "stu_class";
 
     // subject col names
-    private static final String sub_id = "sub_id";
+   // private static final String sub_id = "sub_id";
+    private  static  final  String teacherNAme="teacherName";
     private static final String sub_name = "Sub_name";
-    private static final String Notes = "Notes";
     private static final String Class_Name_subj = "Class_Name";
 
     // teacher col names
     private static final String teacher_id = "teacher_id";
     private static final String teacher_name = "teacher_name";
     private static final String teacher_pass = "teacher_pass";
-    private static final String Class_name = "class_name";
-    private static  final  String  teacher_Subject = "subject";
+
 
     //col for marks table
     private static final String stu_name_marks = "stuId";
@@ -65,14 +67,14 @@ public class DBHandler extends SQLiteOpenHelper {
         String CREATE_TEACHER_TABLE = "CREATE TABLE " + TABLE_TEACHER + "("
                 + teacher_id + " INTEGER PRIMARY KEY,"
                 + teacher_name + " TEXT UNIQUE,"
-                + teacher_pass + " TEXT,"
-                + Class_name + " TEXT,"
-                + teacher_Subject + " TEXT "+")";
+                + teacher_pass + " TEXT "+")";
+
         String CREATE_SUBJECTS_TABLE = "CREATE TABLE " + TABLE_SUBJECT + "("
+                +teacherNAme +" TEXT,"
                 + sub_name + " TEXT,"
                 + Class_Name_subj + " TEXT,"
-                + Notes + " TEXT,"
-                + " PRIMARY KEY ("+ sub_name + "," + Class_Name_subj + ")" + ")";
+                +"FOREIGN KEY (" +teacherNAme+ ") REFERENCES " + TABLE_TEACHER + "(" + teacher_name + "),"
+                + " PRIMARY KEY ("+ sub_name +","+ Class_Name_subj + ")" + ")";
         String CREATE_TABLE_MARKS = "CREATE TABLE " + TABLE_MARKS + "("
                 + stu_name_marks + " INETGER,"
                 + sub_name_marks + " TEXT,"
@@ -81,11 +83,15 @@ public class DBHandler extends SQLiteOpenHelper {
                 + "FOREIGN KEY (" + sub_name_marks + ") REFERENCES " + TABLE_SUBJECT + "(" + sub_name + "),"
                 + " PRIMARY KEY (" + stu_name_marks + "," + sub_name_marks + "))";
 
-
+        String CTEATE_TABLE_HW = "CREATE TABLE "+TABLE_HW +"("
+                +subName_HW +" TEXT,"
+                +ClassName_HW+" TEXT,"
+                +HWEXAM +" TEXT "+")";
         db.execSQL(CREATE_STUDENT_TABLE);
         db.execSQL(CREATE_TEACHER_TABLE);
         db.execSQL(CREATE_SUBJECTS_TABLE);
         db.execSQL(CREATE_TABLE_MARKS);
+        db.execSQL(CTEATE_TABLE_HW);
 
     }
 
@@ -100,13 +106,14 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // adding new subject
-    void addNewSubject(Subject newSub) {
+ public    void addNewSubject(Subject newSub) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(sub_name, newSub.getSub_name());
+        values.put(teacherNAme,newSub.getTeacherName());
         values.put(Class_Name_subj, newSub.getClass_Name());
-        values.put(Notes, newSub.getNote());
+
         // Inserting Row
 
         db.insert(TABLE_SUBJECT, null, values);
@@ -117,7 +124,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // get allsubject as List
     public ArrayList<String> getAllSubjectNotes(String _className) {
 
-String selectQuery = "SELECT * FROM "+TABLE_SUBJECT +" WHERE "+ Class_Name_subj + " = '"+_className +"' ;";
+String selectQuery = "SELECT * FROM "+TABLE_HW +" WHERE "+ ClassName_HW + " = '"+_className +"' ;";
         ArrayList<String> subjectList = new ArrayList<String>();
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -138,17 +145,29 @@ String selectQuery = "SELECT * FROM "+TABLE_SUBJECT +" WHERE "+ Class_Name_subj 
         return subjectList;
     }
 
+public List<String> getALLTeachres()
+{
+    String selectQuery = "SELECT * FROM "+TABLE_TEACHER +";";
+    List<String> teach = new ArrayList<String>();
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor cursor = db.rawQuery(selectQuery, null);
+    if(cursor.moveToFirst())
+        do {
 
+            teach.add(cursor.getString(1).toString());
+        }while (cursor.moveToNext());
+    return  teach;
+
+}
     // adding new teacher
-    void addNewTeacher(Teacher newTeacher) {
+   public void addNewTeacher(Teacher newTeacher) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
+        values.put(teacher_id,newTeacher.getId());
         values.put(teacher_name, newTeacher.getTeacher_name());
         values.put(teacher_pass, newTeacher.getTeacher_password());
-        values.put(Class_name, newTeacher.getClass_name());
-        values.put(teacher_Subject,newTeacher.getSubject());
 
 
         // Inserting Row
@@ -159,7 +178,7 @@ String selectQuery = "SELECT * FROM "+TABLE_SUBJECT +" WHERE "+ Class_Name_subj 
 
 
     // Adding new Student Information
-    void addNewStudent(Student newStud) {
+    public void addNewStudent(Student newStud) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -392,10 +411,10 @@ public List<String> getAllStudentNames() {
         return  pass;
     }
     //check for subjet if exist
-     public boolean isSubjectExist( String subname ,String subClass)
+     public boolean isSubjectExist(String subname ,String subClass)
      {
          String selectQuery = "SELECT  * FROM " + TABLE_SUBJECT + " WHERE "
-                 +sub_name+" = '"+subname+ "'  AND " +Class_Name_subj + " = '"+subClass+"' ;";
+          +sub_name+" = '"+subname+ "'  AND " +Class_Name_subj + " = '"+subClass+"' ;";
          SQLiteDatabase db = this.getWritableDatabase();
          Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -483,25 +502,54 @@ public List<String> getAllStudentNames() {
 
     }
     //add home work or exam
-    public  void addNewHWorExam(String _sub , String _class, String _note)
+    public  void addNewHWorExam(HWEXAM HW)
     {
-
-        String selectQuery = "SELECT  * FROM " + TABLE_SUBJECT + " WHERE " + sub_name +
-                " = '" + _sub + "'" +" AND " + Class_Name_subj
-                +" = '"+_class+"' ;";
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if(cursor.moveToFirst()) {
 
-            values.put(Notes, _note);
-            db.update(TABLE_SUBJECT, values, sub_name + " = '" + _sub + "' AND " + Class_Name_subj + " = '" + _class + "'", null);
-        }
+        ContentValues values = new ContentValues();
+        values.put(subName_HW, HW.getSub());
+        values.put(ClassName_HW, HW.getClassName());
+        values.put(HWEXAM,HW.getHW());
+        // Inserting Row
+        db.insert(TABLE_HW, null, values);
+        db.close();
 
     }
-    boolean isTeachThisSub(String name, String sub)
+     public List<String> getTeacherClasess(String name)
+     {
+         List<String> classes = new ArrayList<String>();
+         String selectQuery = "SELECT  * FROM " + TABLE_SUBJECT + " WHERE " + teacherNAme +
+                 " = '" + name + "' ; ";
+
+         SQLiteDatabase db = this.getWritableDatabase();
+
+         Cursor cursor = db.rawQuery(selectQuery, null);
+         if (cursor.moveToFirst())
+             do{
+                 classes.add(cursor.getString(2));
+
+             }while(cursor.moveToNext());
+         return  classes;
+     }
+    public List<String> getTeacherSubject(String name)
     {
-        String selectQuery = "SELECT * FROM " + TABLE_TEACHER+ " WHERE "+teacher_name + " = '"+name+"' ; ";
+        List<String> classes = new ArrayList<String>();
+        String selectQuery = "SELECT  * FROM " + TABLE_SUBJECT + " WHERE " + teacherNAme +
+                " = '" + name + "' ; ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst())
+            do{
+                classes.add(cursor.getString(1));
+
+            }while(cursor.moveToNext());
+        return  classes;
+    }
+   /* boolean isTeachThisSub(String name, String sub)
+    {
+        String selectQuery = "SELECT * FROM " + TABLE_SUBJECT+ " WHERE "+teacher_name + " = '"+name+"' ; ";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -512,6 +560,6 @@ public List<String> getAllStudentNames() {
               return  false;
 
      return  false;
-    }
+    }*/
 
 }

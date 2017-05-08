@@ -1,17 +1,19 @@
 package com.example.manar.grades;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import DBHandler.*;
+
 public class addnewTeachers extends AppCompatActivity {
     DBHandler db;
     EditText teachname, techpass,teachClass,teachsub,teachID;
-    final AdminClass admin =new AdminClass();
+    AdminClass admin =new AdminClass();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,14 @@ public class addnewTeachers extends AppCompatActivity {
             }
         });
 
-
+        Button show = (Button) findViewById(R.id.button);
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(addnewTeachers.this,showTeachers.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -58,9 +67,20 @@ public class addnewTeachers extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "NoT Added", Toast.LENGTH_LONG).show();
         }
         else
-        if(db.isTeacher(teachname.getText().toString())|| db.isStudent(teachname.getText().toString())) {
-            Toast.makeText(getApplicationContext(), "User Name  already exist", Toast.LENGTH_LONG).show();
-            Toast.makeText(getApplicationContext(), "NoT Added", Toast.LENGTH_LONG).show();
+        if(db.isTeacher(teachname.getText().toString())&&!db.isStudent(teachname.getText().toString())) {
+
+            if(!db.isSubjectExist(teachsub.getText().toString(),teachClass.getText().toString()))
+            {
+                Subject sub = new Subject(teachname.getText().toString(),teachsub.getText().toString(),teachClass.getText().toString());
+                db.addNewSubject(sub);
+
+                Toast.makeText(getApplicationContext(), "You added A new Subject to this Teacher", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"subject already added  this Class", Toast.LENGTH_LONG).show();
+
+            }
 
 
         }
@@ -70,19 +90,21 @@ public class addnewTeachers extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "User ID already exist", Toast.LENGTH_LONG).show();
         }
         else
-        if(!db.isSubjectExist(teachsub.getText().toString(),teachClass.getText().toString()))
+        if(!db.isSubjectExist(teachsub.getText().toString(),teachClass.getText().toString())&&!db.isTeacher(teachname.getText().toString())
+        &&!db.isStudent(teachname.getText().toString()))
         {
 
             Teacher T = new Teacher(Integer.parseInt(teachID.getText().toString()), teachname.getText().toString(),
-                    techpass.getText().toString(), teachClass.getText().toString(),teachsub.getText().toString());
+                    techpass.getText().toString());
             db.addNewTeacher(T);
-            Subject sub = new Subject(teachsub.getText().toString(),teachClass.getText().toString());
+            Subject sub = new Subject(teachname.getText().toString(),teachsub.getText().toString(),teachClass.getText().toString());
             db.addNewSubject(sub);
             Toast.makeText( getApplicationContext()," added ", Toast.LENGTH_LONG).show();
         }
-        else
+      else
         {
-            Toast.makeText(getApplicationContext(), "This Subject is Already Exsist for this Class", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Not Added", Toast.LENGTH_LONG).show();
+
         }
 
 

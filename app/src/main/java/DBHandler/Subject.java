@@ -1,4 +1,4 @@
-package com.example.manar.grades;
+package DBHandler;
 
 /**
  * Created by manar on 4/25/2017.
@@ -6,40 +6,38 @@ package com.example.manar.grades;
 
 public class Subject  {
     String Sub_name;
-    String note;
+
     String ClassName;
+    String TeacherName;
 
 
     public Subject()
     {
 
     }
-    public Subject(String _subname,String _Class)
+    public Subject(String teacher,String _subname,String _Class)
     {
 
         Sub_name = _subname;
         ClassName = _Class;
-        note ="";
-    }
-    public Subject(String _subname,String _Class,String _note)
-    {
 
-         Sub_name = _subname;
-        note = _note;
-        ClassName = _Class;
+        TeacherName =teacher;
     }
+
     public  String getSub_name()
     {
         return Sub_name;
     }
-    public String getNote()
+
+    public String getTeacherName()
     {
-        return  note;
+        return  TeacherName;
     }
-    public void setNote(String _note)
+    public  void setTeacherName(String teacher)
     {
-        note = _note;
+        TeacherName = teacher;
     }
+
     public  String getClass_Name()
     {
         return ClassName;

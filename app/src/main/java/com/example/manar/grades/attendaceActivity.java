@@ -14,6 +14,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import DBHandler.DBHandler;
+
 public class attendaceActivity extends AppCompatActivity {
     ArrayList<String> selectedItems;
     DBHandler db;

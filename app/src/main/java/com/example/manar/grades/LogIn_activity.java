@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import DBHandler.DBHandler;
+
 public class LogIn_activity extends AppCompatActivity {
 
 

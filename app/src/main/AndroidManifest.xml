@@ -23,7 +23,8 @@
         <activity android:name=".attendaceActivity" />
         <activity android:name=".marksActivity" />
         <activity android:name=".showmarksActivity" />
-        <activity android:name=".hwandwxamActivity"></activity>
+        <activity android:name=".hwandwxamActivity" />
+        <activity android:name=".showTeachers"></activity>
     </application>
 
 </manifest>
