@@ -109,7 +109,7 @@ public class hwandwxamActivity extends AppCompatActivity  {
     {
 
         String _desc="";
-        _desc+=subjectSelect+" "+ desc.getText().toString();
+        _desc+=subjectSelect+" "+item_select+" "+ desc.getText().toString();
         HWEXAM hw = new HWEXAM(subjectSelect,ClassSelect,_desc);
         db.addNewHWorExam(hw);
     }
